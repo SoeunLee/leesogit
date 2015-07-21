@@ -6,7 +6,7 @@
 #define MAX_KEY_LENGTH 256
 
 void make_secret_sentence();
-//void solve_secret_sentence();
+void solve_secret_sentence();
 
 int main(void) {
 	char menu_num;
@@ -17,7 +17,7 @@ int main(void) {
 
 	switch(menu_num = getc(stdin)) {
 		case '1': make_secret_sentence();	break;
-		//case '2': solve_secret_key();	break;
+		case '2': solve_secret_sentence();	break;
 		default: return 0;
 	}
 }
@@ -69,23 +69,31 @@ void make_secret_sentence() {
 
 	printf("암호화 된 문장 : %s\n", str);
 }
-/*
+
 void solve_secret_sentence() {
 	char* key = input_key();
 	char str[MAX_STR_LENGTH + 1];
-	int i = -1;
+	int i, key_index = 0;
+	int str_length, key_length;
 
 	printf("복호화 할 문장 : ");
-	getchar();
 	fgets(str, sizeof(str), stdin);
-	
-	while (str[++i] != '\0') {
-		if (str[i] == ' ') { }
-		else if (str[i] - key < 'a')
-			str[i] = str[i] - key + ('z' - ('a' - 1));
-		else str[i] = str[i] - key;
+
+	str_length = strlen(str);
+	key_length = strlen(key);
+	for(i = 0 ; i < str_length ; i++){
+
+		if (str[i] == ' ' || str[i] == '\n') { }
+		else if (str[i] - key[key_index] < 'a'){
+			str[i] = str[i] - key[key_index] + ('z' - ('a' - 1));
+		}
+		else {
+			str[i] = str[i] - key[key_index];
+		}
+		if(key[key_index++ + 2] == '\0'){
+			key_index = 0;
+		}
 	}
 
 	printf("복호화 된 문장 : %s\n", str);
 }
-*/
